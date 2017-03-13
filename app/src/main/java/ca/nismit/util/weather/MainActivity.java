@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
 
-        Call<WeatherResponse> call = apiInterface.mGetWeather(PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
+        Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {

@@ -9,8 +9,9 @@ import retrofit2.http.Query;
 public interface WeatherApi {
 
     @GET("/{urlPath}")
-    Call<WeatherResponse> mGetWeather(
+    Call<WeatherResponse> getWeatherWithCityID(
             @Path("urlPath") String urlPath,
-            @Query("id") String id,
-            @Query("appid") String appId);
+            @Query("id") String cityId,
+            @Query("appid") String appId
+    );
 }
