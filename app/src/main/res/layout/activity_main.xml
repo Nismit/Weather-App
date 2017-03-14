@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,49 +10,63 @@
         android:id="@+id/ac_textLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="Vancouver" />
 
     <TextView
         android:id="@+id/ac_textDate"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="29dp"
-        tools:text="Friday, March 10, 2017" />
+        tools:text="Friday, March 10, 2017"
+        android:layout_below="@+id/ac_textLocation"
+        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/ac_textTemp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="100sp"
-        tools:layout_editor_absoluteX="197dp"
-        tools:layout_editor_absoluteY="85dp"
-        tools:text="24°" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ac_textDate"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/ac_textTitle-temp-preci"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/ac_textTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="100sp"
+            tools:text="24°" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Temperature / Precipitation"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="313dp" />
+        android:layout_marginTop="91dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_alignParentStart="true">
 
-    <TextView
-        android:id="@+id/ac_textTitle-humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Humidity"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="440dp" />
+        <TextView
+            android:id="@+id/ac_textTitle_temp_preci"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temperature / Precipitation" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/ac_textTitle_humidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Humidity" />
+    </LinearLayout>
+
+</RelativeLayout>
