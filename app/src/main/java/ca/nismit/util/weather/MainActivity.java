@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
         _textDate = (TextView) findViewById(R.id.ac_textDate);
         _textTemp = (TextView) findViewById(R.id.ac_textTemp);
 
-        callApi();
+        callWeatherApi();
     }
 
-    private void callApi() {
+    private void callWeatherApi() {
         WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
 
         Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(WEATHER_PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
