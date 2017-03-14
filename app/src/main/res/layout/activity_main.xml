@@ -7,13 +7,52 @@
     tools:context="ca.nismit.util.weather.MainActivity">
 
     <TextView
-        android:id="@+id/sample"
-        android:layout_width="wrap_content"
+        android:id="@+id/ac_textLocation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Vancouver" />
+
+    <TextView
+        android:id="@+id/ac_textDate"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="29dp"
+        tools:text="Friday, March 10, 2017" />
+
+    <TextView
+        android:id="@+id/ac_textTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="100sp"
+        tools:layout_editor_absoluteX="197dp"
+        tools:layout_editor_absoluteY="85dp"
+        tools:text="24°" />
+
+    <TextView
+        android:id="@+id/ac_textTitle-temp-preci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature / Precipitation"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="313dp" />
+
+    <TextView
+        android:id="@+id/ac_textTitle-humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidity"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="440dp" />
 
 </android.support.constraint.ConstraintLayout>
