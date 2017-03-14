@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         _textDate = (TextView) findViewById(R.id.ac_textDate);
         _textTemp = (TextView) findViewById(R.id.ac_textTemp);
 
+        callApi();
+    }
+
+    private void callApi() {
         WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
 
         Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
@@ -50,18 +54,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Response Code: " + response.code());
                 WeatherResponse resource = response.body();
 
-                _textLocation.setText(resource.getName());
+                // Set location into location text view
+                setLocation(resource.getName() + ", " + resource.getSys().getCountry());
 
+                // round up temperature and convert to degree from kelvin
                 double roundTemp = (resource.getMain().getTemp() - 273.15f);
                 BigDecimal bd = new BigDecimal(roundTemp);
                 String temp = bd.setScale(0, BigDecimal.ROUND_HALF_UP).toString();
 
-                _textTemp.setText(temp + "°");
-
-                List<Weather> weather = resource.getWeather();
-                Log.d(TAG, "DESC: " + weather.get(0).getDescription());
-
-
+                // Set temperature into temp text view
+                setTemperature(temp);
             }
 
             @Override
@@ -70,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
+    }
 
+    private void setLocation(String location) {
+        _textLocation.setText(location);
+    }
+
+    private void setDate(String date) {
+        _textDate.setText(date);
+    }
+
+    private void setTemperature(String temperature) {
+        _textTemp.setText(temperature + "°");
     }
 }
