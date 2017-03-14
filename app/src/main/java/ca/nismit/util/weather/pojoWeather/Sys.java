@@ -1,5 +1,5 @@
 
-package ca.nismit.util.weather.pojo;
+package ca.nismit.util.weather.pojoWeather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

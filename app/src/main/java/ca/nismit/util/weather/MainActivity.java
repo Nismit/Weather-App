@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
-import ca.nismit.util.weather.pojo.Weather;
-import ca.nismit.util.weather.pojo.WeatherResponse;
+import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
