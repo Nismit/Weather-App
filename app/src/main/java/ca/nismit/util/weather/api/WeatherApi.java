@@ -14,4 +14,12 @@ public interface WeatherApi {
             @Query("id") String cityId,
             @Query("appid") String appId
     );
+
+    @GET("/{urlPath}")
+    Call<WeatherResponse> getWeatherWithGPS(
+            @Path("urlPath") String urlPath,
+            @Query("lat") float lat,
+            @Query("lon") float lon,
+            @Query("appid") String appId
+    );
 }
