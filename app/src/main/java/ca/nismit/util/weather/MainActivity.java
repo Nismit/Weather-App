@@ -17,7 +17,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
-    private static String PATH_URL = "data/2.5/weather";
+    private static String WEATHER_PATH_URL = "data/2.5/weather";
+    private static String FORECAST_PATH_URL = "data/2.5/forecast";
 
     private TextView _textLocation;
     private TextView _textDate;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void callApi() {
         WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
 
-        Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
+        Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(WEATHER_PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
