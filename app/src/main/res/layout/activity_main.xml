@@ -67,9 +67,9 @@
             android:orientation="horizontal">
 
             <com.github.mikephil.charting.charts.CombinedChart
-                android:id="@+id/combiChart"
+                android:id="@+id/ac_combiChart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
