@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
@@ -20,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
     private static String PATH_URL = "data/2.5/weather";
 
-    private TextView textView;
+    private TextView _textLocation;
+    private TextView _textDate;
+    private TextView _textTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        textView = (TextView) findViewById(R.id.sample);
+        _textLocation = (TextView) findViewById(R.id.ac_textLocation);
+        _textDate = (TextView) findViewById(R.id.ac_textDate);
+        _textTemp = (TextView) findViewById(R.id.ac_textTemp);
 
         WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
 
@@ -44,12 +49,19 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.d(TAG, "Response Code: " + response.code());
                 WeatherResponse resource = response.body();
-                Log.d(TAG, "NAME: " + resource.getName());
-                String temp = Double.toString((resource.getMain().getTemp() - 273.15f));
+
+                _textLocation.setText(resource.getName());
+
+                double roundTemp = (resource.getMain().getTemp() - 273.15f);
+                BigDecimal bd = new BigDecimal(roundTemp);
+                String temp = bd.setScale(0, BigDecimal.ROUND_HALF_UP).toString();
+
+                _textTemp.setText(temp + "°");
+
                 List<Weather> weather = resource.getWeather();
                 Log.d(TAG, "DESC: " + weather.get(0).getDescription());
 
-                textView.setText("PLACE: " + resource.getName() + "\nWEATHER: " + weather.get(0).getDescription() +"\nTEMP: " + temp);
+
             }
 
             @Override
