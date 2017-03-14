@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
+import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
 import retrofit2.Call;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static String WEATHER_PATH_URL = "data/2.5/weather";
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
 
+    private WeatherApi apiInterface;
     private TextView _textLocation;
     private TextView _textDate;
     private TextView _textTemp;
@@ -40,17 +43,18 @@ public class MainActivity extends AppCompatActivity {
         _textDate = (TextView) findViewById(R.id.ac_textDate);
         _textTemp = (TextView) findViewById(R.id.ac_textTemp);
 
+        apiInterface = ClientHelper.createService(WeatherApi.class);
+
         callWeatherApi();
+        callForecastApi();
     }
 
     private void callWeatherApi() {
-        WeatherApi apiInterface = ClientHelper.createService(WeatherApi.class);
-
         Call<WeatherResponse> call = apiInterface.getWeatherWithCityID(WEATHER_PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                Log.d(TAG, "Response Code: " + response.code());
+                Log.d(TAG, "callWeatherApi/Response Code: " + response.code());
                 WeatherResponse resource = response.body();
 
                 // Set location into location text view
@@ -67,6 +71,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+ t.toString());
+                call.cancel();
+            }
+        });
+    }
+
+    private void callForecastApi() {
+        Call<WeatherForecastResponse> call = apiInterface.getForecastWithCityID(FORECAST_PATH_URL, "6173331", BuildConfig.OWM_API_KEY);
+        call.enqueue(new Callback<WeatherForecastResponse>() {
+            @Override
+            public void onResponse(Call<WeatherForecastResponse> call, Response<WeatherForecastResponse> response) {
+                Log.d(TAG, "callForecastApi/Response Code: " + response.code());
+                WeatherForecastResponse resource = response.body();
+                
+                List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
+                //Log.d(TAG, "#####onResponse: " + list.size());
+            }
+
+            @Override
+            public void onFailure(Call<WeatherForecastResponse> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+ t.toString());
                 call.cancel();
             }
