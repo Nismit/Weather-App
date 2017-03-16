@@ -6,7 +6,7 @@
     <!-- Weather Color schema -->
     <color name="colorDaySunny">#FD7427</color>
     <color name="colorDayRainy">#63ADD9</color>
-    <color name="colorDayCloudy">#3CA8C7</color>
+    <color name="colorDayCloudy">#3ca8c7</color>
     <color name="colorDaySnowy">#9BECFF</color>
     <!-- Night Color schema -->
     <color name="colorNightClear">#304D97</color>
