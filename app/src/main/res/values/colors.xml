@@ -11,4 +11,5 @@
     <!-- Night Color schema -->
     <color name="colorNightClear">#304D97</color>
     <color name="colorThunder">#3CA8C7</color>
+    <color name="transparent">#00000000</color>
 </resources>

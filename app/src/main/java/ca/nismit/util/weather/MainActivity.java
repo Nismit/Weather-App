@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Init chart
         //
         _mChart.getDescription().setEnabled(false);
-        _mChart.setBackgroundColor(Color.WHITE);
+        //_mChart.setBackgroundColor(R.color.transparent);
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
         _mChart.setHighlightFullBarEnabled(false);
