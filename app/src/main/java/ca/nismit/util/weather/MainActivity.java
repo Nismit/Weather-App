@@ -32,6 +32,7 @@ import ca.nismit.util.weather.forecast.RecyclerAdapter;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
+import ca.nismit.util.weather.util.ConvertTemperature;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -158,13 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 // Set location into location text view
                 setLocation(resource.getName() + ", " + resource.getSys().getCountry());
 
-                // round up temperature and convert to degree from kelvin
-                double roundTemp = (resource.getMain().getTemp() - 273.15f);
-                BigDecimal bd = new BigDecimal(roundTemp);
-                String temp = bd.setScale(0, BigDecimal.ROUND_HALF_UP).toString();
-
                 // Set temperature into temp text view
-                setTemperature(temp);
+                setTemperature(ConvertTemperature.convertKtoDegree(resource.getMain().getTemp()));
             }
 
             @Override
@@ -211,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
-        _adapter = new RecyclerAdapter(this, list);
+        _adapter = new RecyclerAdapter(list);
         _recyclerView.setAdapter(_adapter);
     }
 

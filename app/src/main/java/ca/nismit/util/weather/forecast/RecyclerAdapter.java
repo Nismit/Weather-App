@@ -12,22 +12,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import ca.nismit.util.weather.R;
+import ca.nismit.util.weather.pojoForecast.Main;
+import ca.nismit.util.weather.util.ConvertTemperature;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private static String TAG = RecyclerAdapter.class.getSimpleName();
     private LayoutInflater _mInflater;
-    private Activity _activity;
     private List<ca.nismit.util.weather.pojoForecast.List> _dataList;
 
-    public RecyclerAdapter(final Activity activity, final List data) {
+    public RecyclerAdapter(final List data) {
         _dataList = data;
-        _activity = activity;
-        Log.d(TAG, "RecyclerAdapter: " + _dataList.size());
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: ");
         View view = _mInflater.from(parent.getContext()).inflate(R.layout.forecast_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -35,9 +33,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: " + position);
+        //Log.d(TAG, "onBindViewHolder: " + position);
         // Example Data
-        holder._tempAndHumidity.setText("12° / 100%" + position);
+        String th = getTempAndHumidity(position);
+        holder._tempAndHumidity.setText(th);
         holder._time.setText("13:00");
         //Log.d(TAG, "onBindViewHolder: " + _dataList.get(position).getDt());
     }
@@ -50,6 +49,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         } else {
             return 0;
         }
+    }
+
+    private String getTempAndHumidity(int position) {
+        String result;
+        Main tempData = _dataList.get(position).getMain();
+        String temp = ConvertTemperature.convertKtoDegree(tempData.getTemp());
+        String humidity = Integer.toString(tempData.getHumidity());
+        result = temp + "° / " + humidity + "%";
+        return result;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
