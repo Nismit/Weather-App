@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         android:textSize="24sp"
         tools:text="Vancouver" />
 
@@ -23,6 +24,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ac_textLocation"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         tools:text="Friday, March 10, 2017" />
 
     <LinearLayout
@@ -43,6 +45,7 @@
             android:id="@+id/ac_textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/background_light"
             android:textSize="100sp"
             tools:text="24°" />
     </LinearLayout>
@@ -63,7 +66,8 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Temperature / Precipitation" />
+            android:text="Temperature / Precipitation"
+            android:textColor="@android:color/background_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +89,8 @@
             android:layout_weight="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Forecast" />
+            android:text="Forecast"
+            android:textColor="@android:color/background_light" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

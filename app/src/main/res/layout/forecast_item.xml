@@ -18,13 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="18° / 100%"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light" />
 
     <TextView
         android:id="@+id/fi_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="15:00"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light" />
 
 </LinearLayout>
