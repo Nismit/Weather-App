@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView _textDate;
     private TextView _textTemp;
     private CombinedChart _mChart;
+    private XAxis _xAxis;
     private final int itemcount = 5;
     private RecyclerView _recyclerView;
     private RecyclerView.Adapter _adapter;
@@ -74,67 +75,9 @@ public class MainActivity extends AppCompatActivity {
         _recyclerView.setLayoutManager(manager);
         _recyclerView.setHasFixedSize(true);
 
-        //
-        // Init chart
-        //
-        _mChart.getDescription().setEnabled(false);
-        //_mChart.setBackgroundColor(R.color.transparent);
-        _mChart.setDrawGridBackground(false);
-        _mChart.setDrawBarShadow(false);
-        _mChart.setHighlightFullBarEnabled(false);
-        _mChart.setVisibleXRangeMaximum(5);
-
-        // draw bars behind lines
-        _mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
-                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE
-        });
-
-        Legend l = _mChart.getLegend();
-        l.setWordWrapEnabled(true);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-
-        YAxis rightAxis = _mChart.getAxisRight();
-        rightAxis.setDrawGridLines(true);
-        rightAxis.setDrawLabels(true);
-        rightAxis.setDrawZeroLine(true);
-        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-        YAxis leftAxis = _mChart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);
-        //leftAxis.setDrawLabels(false);
-        leftAxis.setDrawLabels(true);
-        leftAxis.setAxisMinimum(-10f); // this replaces setStartAtZero(true)
-
-        XAxis xAxis = _mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        //xAxis.setCenterAxisLabels(true);
-        xAxis.setAxisMinimum(-0.3f);
-        //xAxis.setGranularity(1f);
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return mMonths[(int) value % mMonths.length];
-            }
-        });
-
-        CombinedData data = new CombinedData();
-
-        data.setData(generateLineData());
-        data.setData(generateBarData());
-
-        xAxis.setAxisMaximum(data.getXMax() + 0.25f);
-
-        _mChart.animateY(2500);
-
-        _mChart.setData(data);
-        _mChart.invalidate();
-
         apiInterface = ClientHelper.createService(WeatherApi.class);
 
+        initChart();
         callWeatherApi();
         callForecastApi();
     }
@@ -158,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Set date
                 setDate(Converter.convertUnixTimetoDate(resource.getDt()));
-                //82233213123
-                //1489525200
-                //1489501517
 
                 // Set temperature into temp text view
                 setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
@@ -182,10 +122,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "callForecastApi/Response Code: " + response.code());
                 WeatherForecastResponse resource = response.body();
 
-
-                //List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
                 List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
                 Log.d(TAG, "callForecastApi List size: " + list.size());
+                drawChart();
                 setRecyclerView(list);
             }
 
@@ -212,6 +151,83 @@ public class MainActivity extends AppCompatActivity {
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
         _adapter = new RecyclerAdapter(list);
         _recyclerView.setAdapter(_adapter);
+    }
+
+    /**
+     * Init chart
+     * In this case, the graph will be painted combine data.
+     *
+     */
+    private void initChart() {
+        _mChart.getDescription().setEnabled(false);
+        //_mChart.setBackgroundColor(R.color.transparent);
+        _mChart.setDrawGridBackground(false);
+        _mChart.setDrawBarShadow(false);
+        _mChart.setHighlightFullBarEnabled(false);
+        _mChart.setVisibleXRangeMaximum(5);
+
+        // draw bars behind lines
+        _mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE
+        });
+
+        setLegend();
+        setSideAxis();
+        setXAxis();
+    }
+
+    /**
+     * Init legend in chart
+     */
+    private void setLegend() {
+        Legend l = _mChart.getLegend();
+        l.setWordWrapEnabled(true);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+    }
+
+    private void setSideAxis() {
+        YAxis rightAxis = _mChart.getAxisRight();
+        rightAxis.setDrawGridLines(true);
+        rightAxis.setDrawLabels(true);
+        rightAxis.setDrawZeroLine(true);
+        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        YAxis leftAxis = _mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        //leftAxis.setDrawLabels(false);
+        leftAxis.setDrawLabels(true);
+        leftAxis.setAxisMinimum(-10f); // this replaces setStartAtZero(true)
+    }
+
+    private void setXAxis() {
+        _xAxis = _mChart.getXAxis();
+        _xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        _xAxis.setDrawGridLines(false);
+        //xAxis.setCenterAxisLabels(true);
+        _xAxis.setAxisMinimum(-0.3f);
+        //xAxis.setGranularity(1f);
+        _xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mMonths[(int) value % mMonths.length];
+            }
+        });
+    }
+
+    private void drawChart() {
+        CombinedData data = new CombinedData();
+
+        data.setData(generateLineData());
+        data.setData(generateBarData());
+
+        _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
+
+        _mChart.animateY(2500);
+        _mChart.setData(data);
+        _mChart.invalidate();
     }
 
     private LineData generateLineData() {
