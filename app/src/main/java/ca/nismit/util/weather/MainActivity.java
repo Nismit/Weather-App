@@ -156,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
                 // Set location into location text view
                 setLocation(resource.getName() + ", " + resource.getSys().getCountry());
 
+                // Set date
+                setDate(Converter.convertUnixTimetoDate(resource.getDt()));
+                //82233213123
+                //1489525200
+                //1489501517
+
                 // Set temperature into temp text view
                 setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
             }
