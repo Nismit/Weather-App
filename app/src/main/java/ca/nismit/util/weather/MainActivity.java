@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        //manager.setOrientation(LinearLayoutManager.VERTICAL);
         _recyclerView.setLayoutManager(manager);
         _recyclerView.setHasFixedSize(true);
 
@@ -110,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         leftAxis.setAxisMinimum(-10f); // this replaces setStartAtZero(true)
 
         XAxis xAxis = _mChart.getXAxis();
-        //xAxis.setEnabled(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         //xAxis.setCenterAxisLabels(true);
@@ -260,9 +258,6 @@ public class MainActivity extends AppCompatActivity {
 
         BarData d = new BarData(set1);
         d.setBarWidth(barWidth);
-
-        // make this BarData object grouped
-        //d.groupBars(0, groupSpace, barSpace); // start at x = 0
 
         return d;
     }
