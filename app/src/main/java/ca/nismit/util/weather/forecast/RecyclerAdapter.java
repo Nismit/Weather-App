@@ -1,8 +1,6 @@
 package ca.nismit.util.weather.forecast;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,7 @@ import java.util.List;
 
 import ca.nismit.util.weather.R;
 import ca.nismit.util.weather.pojoForecast.Main;
-import ca.nismit.util.weather.util.ConvertTemperature;
+import ca.nismit.util.weather.util.Converter;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private static String TAG = RecyclerAdapter.class.getSimpleName();
@@ -54,9 +52,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private String getTempAndHumidity(int position) {
         String result;
         Main tempData = _dataList.get(position).getMain();
-        String temp = ConvertTemperature.convertKtoDegree(tempData.getTemp());
+        String temp = Converter.convertKtoDegree(tempData.getTemp());
         String humidity = Integer.toString(tempData.getHumidity());
-        result = temp + "° / " + humidity + "%";
+        result = temp + " / " + humidity + "%";
         return result;
     }
 

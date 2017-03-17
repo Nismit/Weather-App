@@ -23,7 +23,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import ca.nismit.util.weather.forecast.RecyclerAdapter;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
-import ca.nismit.util.weather.util.ConvertTemperature;
+import ca.nismit.util.weather.util.Converter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 setLocation(resource.getName() + ", " + resource.getSys().getCountry());
 
                 // Set temperature into temp text view
-                setTemperature(ConvertTemperature.convertKtoDegree(resource.getMain().getTemp()));
+                setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
             }
 
             @Override
@@ -203,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTemperature(String temperature) {
-        _textTemp.setText(temperature + "°");
+        _textTemp.setText(temperature);
     }
 
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
