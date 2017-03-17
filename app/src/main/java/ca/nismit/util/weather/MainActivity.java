@@ -3,6 +3,8 @@ package ca.nismit.util.weather;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
+import ca.nismit.util.weather.forecast.RecyclerAdapter;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
@@ -44,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView _textTemp;
     private CombinedChart _mChart;
     private final int itemcount = 5;
+    private RecyclerView _recyclerView;
+    private RecyclerView.Adapter _adapter;
+    private RecyclerView.LayoutManager _lManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
         _textDate = (TextView) findViewById(R.id.ac_textDate);
         _textTemp = (TextView) findViewById(R.id.ac_textTemp);
         _mChart = (CombinedChart) findViewById(R.id.ac_combiChart);
+        _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //manager.setOrientation(LinearLayoutManager.VERTICAL);
+        _recyclerView.setLayoutManager(manager);
+        _recyclerView.setHasFixedSize(true);
 
         //
         // Init chart
@@ -124,8 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = ClientHelper.createService(WeatherApi.class);
 
-        //callWeatherApi();
-        //callForecastApi();
+        callWeatherApi();
+        callForecastApi();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     private void callWeatherApi() {
@@ -165,8 +184,10 @@ public class MainActivity extends AppCompatActivity {
                 WeatherForecastResponse resource = response.body();
 
 
+                //List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
                 List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
-                //Log.d(TAG, "#####onResponse: " + list.size());
+                Log.d(TAG, "callForecastApi List size: " + list.size());
+                setRecyclerView(list);
             }
 
             @Override
@@ -187,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setTemperature(String temperature) {
         _textTemp.setText(temperature + "°");
+    }
+
+    private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
+        _adapter = new RecyclerAdapter(this, list);
+        _recyclerView.setAdapter(_adapter);
     }
 
     private LineData generateLineData() {
