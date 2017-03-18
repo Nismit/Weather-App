@@ -35,13 +35,16 @@
         android:layout_below="@+id/ac_textDate"
         android:layout_marginBottom="28dp"
         android:layout_marginTop="28dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ac_weather_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_01d" />
 
         <TextView
             android:id="@+id/ac_textTemp"
@@ -155,14 +158,14 @@
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <com.github.mikephil.charting.charts.CombinedChart
                 android:id="@+id/ac_combiChart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:background="@color/transparent" />
 
         </LinearLayout>
