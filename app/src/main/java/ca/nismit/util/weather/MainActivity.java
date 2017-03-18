@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
 
     private WeatherApi apiInterface;
+    private ImageView _weatherIcon;
     private TextView _textLocation, _textDate, _textTemp, _textSunrise, _textSunset, _textHumidity, _textWind;
     private CombinedChart _mChart;
     private XAxis _xAxis;
@@ -72,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
         _textSunset = (TextView) findViewById(R.id.ac_text_sunset);
         _textHumidity = (TextView) findViewById(R.id.ac_text_humidity);
         _textWind = (TextView) findViewById(R.id.ac_text_wind);
+
+        //
+        // Init image view
+        //
+        _weatherIcon = (ImageView) findViewById(R.id.ac_weather_icon);
 
         // Init Chart
         _mChart = (CombinedChart) findViewById(R.id.ac_combiChart);
@@ -199,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
         _mChart.setHighlightFullBarEnabled(false);
+        _mChart.setDoubleTapToZoomEnabled(false);
 
         // draw bars behind lines
         _mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
@@ -265,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
         _mChart.setVisibleXRangeMaximum(4);
+        _mChart.setPinchZoom(false);
         //_mChart.setVisibleYRangeMaximum(data.getYMax() + 0.25f, YAxis.AxisDependency.RIGHT);
 
         _mChart.animateY(2500);
