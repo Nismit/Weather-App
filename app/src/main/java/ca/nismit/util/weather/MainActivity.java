@@ -42,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
 
     private WeatherApi apiInterface;
-    private TextView _textLocation;
-    private TextView _textDate;
-    private TextView _textTemp;
+    private TextView _textLocation, _textDate, _textTemp, _textSunrise, _textSunset, _textHumidity, _textWind;
     private CombinedChart _mChart;
     private XAxis _xAxis;
     private final int itemcount = 12;
@@ -64,10 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        //
+        // Init text view
+        //
         _textLocation = (TextView) findViewById(R.id.ac_textLocation);
         _textDate = (TextView) findViewById(R.id.ac_textDate);
         _textTemp = (TextView) findViewById(R.id.ac_textTemp);
+        _textSunrise = (TextView) findViewById(R.id.ac_text_sunrise);
+        _textSunset = (TextView) findViewById(R.id.ac_text_sunset);
+        _textHumidity = (TextView) findViewById(R.id.ac_text_humidity);
+        _textWind = (TextView) findViewById(R.id.ac_text_wind);
+
+        // Init Chart
         _mChart = (CombinedChart) findViewById(R.id.ac_combiChart);
+        // Init Recycler view
         _recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = ClientHelper.createService(WeatherApi.class);
         callWeatherApi();
-        //callForecastApi();
+        callForecastApi();
     }
 
     @Override
@@ -105,6 +113,18 @@ public class MainActivity extends AppCompatActivity {
 
                 // Set temperature into temp text view
                 setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
+
+                // Set sun rise time
+                setSunrise(Converter.convertUnixTimetoDate("TIME", resource.getSys().getSunrise()));
+
+                // Set sun rise time
+                setSunset(Converter.convertUnixTimetoDate("TIME", resource.getSys().getSunset()));
+
+                // Set humidity
+                setHumidity(Integer.toString(resource.getMain().getHumidity()));
+
+                // Set wind
+                setWind(Double.toString(resource.getWind().getSpeed()));
             }
 
             @Override
@@ -148,6 +168,22 @@ public class MainActivity extends AppCompatActivity {
         _textTemp.setText(temperature);
     }
 
+    private void setSunrise(String time) {
+        _textSunrise.setText(time);
+    }
+
+    private void setSunset(String time) {
+        _textSunset.setText(time);
+    }
+
+    private void setHumidity(String humidity) {
+        _textHumidity.setText(humidity + "%");
+    }
+
+    private void setWind(String wind) {
+        _textWind.setText(wind + " m/s");
+    }
+
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
         _adapter = new RecyclerAdapter(list);
         _recyclerView.setAdapter(_adapter);
@@ -156,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Init chart
      * In this case, the graph will be painted combine data.
-     *
      */
     private void initChart() {
         _mChart.getDescription().setEnabled(false);
@@ -229,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
         data.setData(generateBarData());
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
-        _mChart.setVisibleXRangeMaximum(5);
+        _mChart.setVisibleXRangeMaximum(4);
         //_mChart.setVisibleYRangeMaximum(data.getYMax() + 0.25f, YAxis.AxisDependency.RIGHT);
 
         _mChart.animateY(2500);
@@ -254,12 +289,13 @@ public class MainActivity extends AppCompatActivity {
         set.setColor(Color.rgb(240, 238, 70));
         set.setLineWidth(2.5f);
         set.setCircleColor(Color.rgb(252, 238, 33));
-        set.setCircleRadius(5f);
+        set.setCircleRadius(7f);
         set.setFillColor(Color.rgb(252, 238, 33));
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        set.setDrawValues(true);
-        set.setValueTextSize(10f);
-        set.setValueTextColor(Color.rgb(240, 238, 70));
+        //set.setDrawValues(true);
+        set.setDrawValues(false);
+        //set.setValueTextSize(15f);
+        //set.setValueTextColor(Color.rgb(240, 238, 70));
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         d.addDataSet(set);
@@ -282,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
         //set1.setValueTextSize(10f);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
-        float barWidth = 0.20f; // x2 dataset
+        float barWidth = 0.25f; // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
         BarData d = new BarData(set1);
