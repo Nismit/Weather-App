@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         _recyclerView.setHasFixedSize(true);
 
         apiInterface = ClientHelper.createService(WeatherApi.class);
+        callWeatherApi();
+        //callForecastApi();
     }
 
     @Override
@@ -83,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(TAG, "onStart: ");
         initChart();
-        callWeatherApi();
-        callForecastApi();
         drawChart();
     }
 
@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 setLocation(resource.getName() + ", " + resource.getSys().getCountry());
 
                 // Set date
-                setDate(Converter.convertUnixTimetoDate(resource.getDt()));
+                setDate(Converter.convertUnixTimetoDate("DATE", resource.getDt()));
+                Log.d(TAG, "onResponse: " + Converter.convertUnixTimetoDate("TIME", resource.getDt()));
 
                 // Set temperature into temp text view
                 setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
@@ -179,22 +180,25 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setLegend() {
         Legend l = _mChart.getLegend();
-        l.setWordWrapEnabled(true);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
+        l.setEnabled(false);
+//        l.setWordWrapEnabled(true);
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
     }
 
     private void setSideAxis() {
         // Right
         YAxis rightAxis = _mChart.getAxisRight();
+        rightAxis.setTextColor(Color.WHITE);
         rightAxis.setDrawGridLines(true);
         rightAxis.setDrawLabels(true);
         rightAxis.setDrawZeroLine(true);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis leftAxis = _mChart.getAxisLeft();
+        leftAxis.setTextColor(Color.WHITE);
         leftAxis.setDrawGridLines(false);
         //leftAxis.setDrawLabels(false);
         leftAxis.setDrawLabels(true);
@@ -203,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setXAxis() {
         _xAxis = _mChart.getXAxis();
+        _xAxis.setTextColor(Color.WHITE);
         _xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         _xAxis.setDrawGridLines(false);
         //xAxis.setCenterAxisLabels(true);
@@ -211,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
         _xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return mMonths[(int) value % mMonths.length];
+                //return mMonths[(int) value % mMonths.length];
+                return "test";
             }
         });
     }
