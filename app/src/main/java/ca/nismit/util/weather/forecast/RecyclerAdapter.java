@@ -31,12 +31,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //Log.d(TAG, "onBindViewHolder: " + position);
-        // Example Data
         String th = getTempAndHumidity(position);
         holder._tempAndHumidity.setText(th);
-        holder._time.setText("13:00");
-        //Log.d(TAG, "onBindViewHolder: " + _dataList.get(position).getDt());
+        holder._time.setText(getTime(position));
     }
 
     @Override
@@ -55,6 +52,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String temp = Converter.convertKtoDegree(tempData.getTemp());
         String humidity = Integer.toString(tempData.getHumidity());
         result = temp + " / " + humidity + "%";
+        return result;
+    }
+
+    private String getTime(int position) {
+        String result = Converter.convertUnixTimetoDate("TIME", _dataList.get(position).getDt());
         return result;
     }
 
