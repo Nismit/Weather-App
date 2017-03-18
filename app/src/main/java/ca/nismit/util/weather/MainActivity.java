@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView _textTemp;
     private CombinedChart _mChart;
     private XAxis _xAxis;
-    private final int itemcount = 5;
+    private final int itemcount = 12;
     private RecyclerView _recyclerView;
     private RecyclerView.Adapter _adapter;
     private RecyclerView.LayoutManager _lManager;
@@ -76,16 +76,16 @@ public class MainActivity extends AppCompatActivity {
         _recyclerView.setHasFixedSize(true);
 
         apiInterface = ClientHelper.createService(WeatherApi.class);
-
-        initChart();
-        callWeatherApi();
-        callForecastApi();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        Log.d(TAG, "onStart: ");
+        initChart();
+        callWeatherApi();
+        callForecastApi();
+        drawChart();
     }
 
     private void callWeatherApi() {
@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
                 List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
                 Log.d(TAG, "callForecastApi List size: " + list.size());
-                drawChart();
                 setRecyclerView(list);
             }
 
@@ -164,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
         _mChart.setHighlightFullBarEnabled(false);
-        _mChart.setVisibleXRangeMaximum(5);
 
         // draw bars behind lines
         _mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
@@ -189,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setSideAxis() {
+        // Right
         YAxis rightAxis = _mChart.getAxisRight();
         rightAxis.setDrawGridLines(true);
         rightAxis.setDrawLabels(true);
@@ -224,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
         data.setData(generateBarData());
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
+        _mChart.setVisibleXRangeMaximum(5);
+        //_mChart.setVisibleYRangeMaximum(data.getYMax() + 0.25f, YAxis.AxisDependency.RIGHT);
 
         _mChart.animateY(2500);
         _mChart.setData(data);
@@ -236,19 +237,19 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < 4; index++) {
+        for (int index = 0; index < itemcount -1; index++) {
             //entries.add(new Entry(index, getRandom(15, 5)));
             entries.add(new Entry(index, (-2 + index)));
         }
 
-        entries.add(new Entry(4, 18));
+        entries.add(new Entry(11, 18));
 
         LineDataSet set = new LineDataSet(entries, "Line DataSet");
         set.setColor(Color.rgb(240, 238, 70));
         set.setLineWidth(2.5f);
-        set.setCircleColor(Color.rgb(240, 238, 70));
+        set.setCircleColor(Color.rgb(252, 238, 33));
         set.setCircleRadius(5f);
-        set.setFillColor(Color.rgb(240, 238, 70));
+        set.setFillColor(Color.rgb(252, 238, 33));
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set.setDrawValues(true);
         set.setValueTextSize(10f);
@@ -269,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         BarDataSet set1 = new BarDataSet(entries1, "Bar 1");
-        set1.setColor(Color.rgb(60, 220, 78));
+        set1.setColor(Color.rgb(235, 255, 255));
         set1.setDrawValues(false);
         //set1.setValueTextColor(Color.rgb(60, 220, 78));
         //set1.setValueTextSize(10f);
