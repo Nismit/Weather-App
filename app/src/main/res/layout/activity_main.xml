@@ -28,11 +28,13 @@
         tools:text="Friday, March 10, 2017" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ac_textDate"
+        android:layout_marginBottom="28dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -45,6 +47,7 @@
             android:id="@+id/ac_textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="--°"
             android:textColor="@android:color/background_light"
             android:textSize="100sp"
             tools:text="24°" />
@@ -53,10 +56,12 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout3"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
@@ -66,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout3"
+            android:layout_below="@+id/linearLayout1"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/ic_sunrise" />
@@ -77,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="7dp"
-            android:text="04:30"
+            android:text="00:00"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 
@@ -93,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="18:23"
+            android:text="00:00"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 
@@ -109,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="89%"
+            android:text="000%"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 
@@ -125,18 +130,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="12.3 m/s"
+            android:text="00.0 m/s"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_marginTop="91dp"
+        android:layout_below="@+id/linearLayout2"
         android:orientation="vertical">
 
         <TextView
@@ -149,8 +153,10 @@
             android:textColor="@android:color/background_light" />
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <com.github.mikephil.charting.charts.CombinedChart
