@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
-        _adapter = new RecyclerAdapter(list);
+        _adapter = new RecyclerAdapter(this, list);
         _recyclerView.setAdapter(_adapter);
     }
 

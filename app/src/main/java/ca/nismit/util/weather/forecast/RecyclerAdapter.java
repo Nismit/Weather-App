@@ -1,5 +1,6 @@
 package ca.nismit.util.weather.forecast;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,11 @@ import ca.nismit.util.weather.util.Converter;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private static String TAG = RecyclerAdapter.class.getSimpleName();
     private LayoutInflater _mInflater;
+    private Context _context;
     private List<ca.nismit.util.weather.pojoForecast.List> _dataList;
 
-    public RecyclerAdapter(final List data) {
+    public RecyclerAdapter(Context context, final List data) {
+        _context = context;
         _dataList = data;
     }
 
@@ -32,6 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String th = getTempAndHumidity(position);
+        holder._weatherIcon.setImageResource(getWeatherIcon(position));
         holder._tempAndHumidity.setText(th);
         holder._time.setText(getTime(position));
     }
@@ -44,6 +48,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         } else {
             return 0;
         }
+    }
+
+    private int getWeatherIcon(int position) {
+        String iconNo = "ic_" + _dataList.get(position).getWeather().get(0).getIcon();
+        int resourceId = _context.getResources().getIdentifier(iconNo, "drawable", "ca.nismit.util.weather");
+        return resourceId;
     }
 
     private String getTempAndHumidity(int position) {
