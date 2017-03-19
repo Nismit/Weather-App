@@ -5,13 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingRight="10dp"
+    android:weightSum="1">
 
     <ImageView
         android:id="@+id/fi_weather_icon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:layout_height="51dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="0.00"
+        app:srcCompat="@drawable/ic_01d" />
 
     <TextView
         android:id="@+id/fi_temp_humidity"
