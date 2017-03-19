@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
                 setDate(Converter.convertUnixTimetoDate("DATE", resource.getDt()));
                 Log.d(TAG, "onResponse: " + Converter.convertUnixTimetoDate("TIME", resource.getDt()));
 
+                // Set icon
+                setWeatherIcon(resource.getWeather().get(0).getIcon());
+
                 // Set temperature into temp text view
                 setTemperature(Converter.convertKtoDegree(resource.getMain().getTemp()));
 
@@ -189,6 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setWind(String wind) {
         _textWind.setText(wind + " m/s");
+    }
+
+    private void setWeatherIcon(String iconNo) {
+        iconNo = "ic_" + iconNo;
+        int resourceId = getResources().getIdentifier(iconNo, "drawable", "ca.nismit.util.weather");
+        _weatherIcon.setImageResource(resourceId);
     }
 
     private void setRecyclerView(List<ca.nismit.util.weather.pojoForecast.List> list) {
