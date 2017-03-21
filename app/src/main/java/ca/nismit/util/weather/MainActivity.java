@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -33,7 +34,6 @@ import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
 import ca.nismit.util.weather.forecast.RecyclerAdapter;
-import ca.nismit.util.weather.pojoForecast.Main;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
 
     private WeatherApi apiInterface;
+    private RelativeLayout _relativeLayout;
     private ImageView _weatherIcon;
     private TextView _textLocation, _textDate, _textTemp, _textSunrise, _textSunset, _textHumidity, _textWind;
     private CombinedChart _mChart;
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         setContentView(R.layout.activity_main);
+
+        //
+        // Init relative view
+        //
+        _relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
         //
         // Init text view
@@ -114,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 Log.d(TAG, "callWeatherApi/Response Code: " + response.code());
                 WeatherResponse resource = response.body();
+
+                Log.d(TAG, "onResponse: "+ resource.getWeather().get(0).getId());
+
+                setBackground(resource.getWeather().get(0).getId());
 
                 // Set location into location text view
                 setLocation(resource.getName() + ", " + resource.getSys().getCountry());
@@ -169,6 +179,38 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
                 call.cancel();
             }
         });
+    }
+
+    private void setBackground(int weatherId) {
+        String weather = null;
+        if(weatherId >= 200 && weatherId < 300) {
+            weather = "CLOUD";
+        } else if(weatherId >= 300 && weatherId < 400) {
+            weather = "CLOUD";
+        } else if(weatherId >= 500 && weatherId < 600) {
+            weather = "RAIN";
+        } else if(weatherId >= 600 && weatherId < 700) {
+            weather = "CLOUD";
+        } else if(weatherId >= 700 && weatherId < 800) {
+            weather = "CLOUD";
+        } else if(weatherId == 800) {
+            weather = "SUN";
+        } else if(weatherId >= 801 && weatherId < 900) {
+            weather = "CLOUD";
+        }
+
+        switch (weather) {
+            case "SUN" :
+                _relativeLayout.setBackgroundResource(R.drawable.gradation_sunny);
+                break;
+            case "CLOUD" :
+                _relativeLayout.setBackgroundResource(R.drawable.gradation_cloud);
+                break;
+            case "RAIN" :
+                _relativeLayout.setBackgroundResource(R.drawable.gradation_rain);
+                break;
+        }
+
     }
 
     private void setLocation(String location) {
@@ -253,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         rightAxis.setDrawGridLines(true);
         rightAxis.setDrawLabels(true);
         rightAxis.setDrawZeroLine(true);
+        rightAxis.setGranularity(1f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         YAxis leftAxis = _mChart.getAxisLeft();
@@ -260,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         leftAxis.setDrawGridLines(false);
         //leftAxis.setDrawLabels(false);
         leftAxis.setDrawLabels(true);
-        leftAxis.setAxisMinimum(-5f); // this replaces setStartAtZero(true)
+        //leftAxis.setAxisMinimum(-5f); // this replaces setStartAtZero(true)
     }
 
     private void setXAxis() {
@@ -292,7 +335,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
         _mChart.setVisibleXRangeMaximum(4);
         _mChart.setPinchZoom(false);
-        _mChart.setVisibleYRangeMaximum(data.getYMax() + 2f, YAxis.AxisDependency.LEFT);
+        Log.d(TAG, "drawChart: "+ data.getYMax());
+        _mChart.setVisibleYRangeMaximum((data.getYMax()+ 2f), YAxis.AxisDependency.LEFT);
 
         _mChart.animateY(2500);
         _mChart.setData(data);
