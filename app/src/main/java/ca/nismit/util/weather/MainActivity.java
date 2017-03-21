@@ -29,6 +29,7 @@ import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
 import ca.nismit.util.weather.forecast.RecyclerAdapter;
+import ca.nismit.util.weather.pojoForecast.Main;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(TAG, "onStart: ");
         initChart();
-        drawChart();
     }
 
     private void callWeatherApi() {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Set date
                 setDate(Converter.convertUnixTimetoDate("DATE", resource.getDt()));
-                Log.d(TAG, "onResponse: " + Converter.convertUnixTimetoDate("TIME", resource.getDt()));
+                //Log.d(TAG, "onResponse: " + Converter.convertUnixTimetoDate("TIME", resource.getDt()));
 
                 // Set icon
                 setWeatherIcon(resource.getWeather().get(0).getIcon());
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
                 List<ca.nismit.util.weather.pojoForecast.List> list = resource.getList();
                 Log.d(TAG, "callForecastApi List size: " + list.size());
+                drawChart(list);
                 setRecyclerView(list);
             }
 
@@ -274,11 +275,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void drawChart() {
+    private void drawChart(List<ca.nismit.util.weather.pojoForecast.List> list) {
         CombinedData data = new CombinedData();
 
+
         data.setData(generateLineData());
-        data.setData(generateBarData());
+        data.setData(generateBarData(getRainData(list)));
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
         _mChart.setVisibleXRangeMaximum(4);
@@ -321,25 +323,25 @@ public class MainActivity extends AppCompatActivity {
         return d;
     }
 
-    private BarData generateBarData() {
+    private BarData generateBarData(ArrayList<BarEntry> entries) {
 
-        ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
+//        ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
+//
+//        for (int index = 0; index < itemcount; index++) {
+//            entries1.add(new BarEntry(index, getRandom(25, 25)));
+//        }
 
-        for (int index = 0; index < itemcount; index++) {
-            entries1.add(new BarEntry(index, getRandom(25, 25)));
-        }
-
-        BarDataSet set1 = new BarDataSet(entries1, "Bar 1");
-        set1.setColor(Color.rgb(235, 255, 255));
-        set1.setDrawValues(false);
-        //set1.setValueTextColor(Color.rgb(60, 220, 78));
-        //set1.setValueTextSize(10f);
-        set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        BarDataSet set = new BarDataSet(entries, "Rain");
+        set.setColor(Color.rgb(235, 255, 255));
+        set.setDrawValues(false);
+        //set.setValueTextColor(Color.rgb(60, 220, 78));
+        //set.setValueTextSize(10f);
+        set.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
         float barWidth = 0.25f; // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
-        BarData d = new BarData(set1);
+        BarData d = new BarData(set);
         d.setBarWidth(barWidth);
 
         return d;
@@ -349,7 +351,16 @@ public class MainActivity extends AppCompatActivity {
         return (float) (Math.random() * range) + startsfrom;
     }
 
-    protected String[] mMonths = new String[] {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
-    };
+    private ArrayList<BarEntry> getRainData(List<ca.nismit.util.weather.pojoForecast.List> list) {
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+
+        //for (int index = 0; index < list.size(); index++) {
+        for (int index = 0; index < 12; index++) {
+            Float rain = Converter.castDoubletoFloat(list.get(index).getRain().get3h());
+            entries.add(new BarEntry(index, rain));
+        }
+
+        return entries;
+    }
+
 }

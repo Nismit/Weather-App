@@ -29,4 +29,10 @@ public class Converter {
                 return result;
         }
     }
+
+    public static float castDoubletoFloat(Double value) {
+        float result;
+        result = value.floatValue();
+        return result;
+    }
 }
