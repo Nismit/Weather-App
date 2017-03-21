@@ -61,7 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Main tempData = _dataList.get(position).getMain();
         String temp = Converter.convertKtoDegree(tempData.getTemp());
         String humidity = Integer.toString(tempData.getHumidity());
-        result = temp + " / " + humidity + "%";
+        result = temp + "° / " + humidity + "%";
         return result;
     }
 

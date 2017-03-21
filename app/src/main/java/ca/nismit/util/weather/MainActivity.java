@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTemperature(String temperature) {
-        _textTemp.setText(temperature);
+        _textTemp.setText(temperature + "°");
     }
 
     private void setSunrise(String time) {
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         CombinedData data = new CombinedData();
 
 
-        data.setData(generateLineData());
+        data.setData(generateLineData(getTempData(list)));
         data.setData(generateBarData(getRainData(list)));
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
@@ -292,18 +292,7 @@ public class MainActivity extends AppCompatActivity {
         _mChart.invalidate();
     }
 
-    private LineData generateLineData() {
-
-        LineData d = new LineData();
-
-        ArrayList<Entry> entries = new ArrayList<Entry>();
-
-        for (int index = 0; index < itemcount -1; index++) {
-            //entries.add(new Entry(index, getRandom(15, 5)));
-            entries.add(new Entry(index, (-2 + index)));
-        }
-
-        entries.add(new Entry(11, 18));
+    private LineData generateLineData(ArrayList<Entry> entries) {
 
         LineDataSet set = new LineDataSet(entries, "Line DataSet");
         set.setColor(Color.rgb(240, 238, 70));
@@ -318,18 +307,13 @@ public class MainActivity extends AppCompatActivity {
         //set.setValueTextColor(Color.rgb(240, 238, 70));
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        LineData d = new LineData();
         d.addDataSet(set);
 
         return d;
     }
 
     private BarData generateBarData(ArrayList<BarEntry> entries) {
-
-//        ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
-//
-//        for (int index = 0; index < itemcount; index++) {
-//            entries1.add(new BarEntry(index, getRandom(25, 25)));
-//        }
 
         BarDataSet set = new BarDataSet(entries, "Rain");
         set.setColor(Color.rgb(235, 255, 255));
@@ -347,8 +331,16 @@ public class MainActivity extends AppCompatActivity {
         return d;
     }
 
-    protected float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
+    private ArrayList<Entry> getTempData(List<ca.nismit.util.weather.pojoForecast.List> list) {
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+
+        //for (int index = 0; index < list.size(); index++) {
+        for (int index = 0; index < 12; index++) {
+            Float temp = Converter.castFloatDegree(list.get(index).getMain().getTemp());
+            entries.add(new BarEntry(index, temp));
+        }
+
+        return entries;
     }
 
     private ArrayList<BarEntry> getRainData(List<ca.nismit.util.weather.pojoForecast.List> list) {

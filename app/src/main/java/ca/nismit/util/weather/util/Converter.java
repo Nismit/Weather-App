@@ -12,7 +12,7 @@ public class Converter {
         double roundTemp = (temp - 273.15f);
         BigDecimal bd = new BigDecimal(roundTemp);
         String result = bd.setScale(0, BigDecimal.ROUND_HALF_UP).toString();
-        return result + "°";
+        return result;
     }
 
     public static String convertUnixTimetoDate(@Nullable String resultType, Long millisec) {
@@ -28,6 +28,14 @@ public class Converter {
                 result = format.format(new Date(millisec * 1000));
                 return result;
         }
+    }
+
+    public static float castFloatDegree(Double temp) {
+        float result;
+        double roundTemp = (temp - 273.15f);
+        BigDecimal bd = new BigDecimal(roundTemp);
+        result = bd.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        return result;
     }
 
     public static float castDoubletoFloat(Double value) {
