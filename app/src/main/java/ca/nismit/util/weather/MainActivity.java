@@ -1,6 +1,7 @@
 package ca.nismit.util.weather;
 
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnChartValueSelectedListener {
     private static String TAG = MainActivity.class.getSimpleName();
     private static String WEATHER_PATH_URL = "data/2.5/weather";
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
@@ -215,7 +219,8 @@ public class MainActivity extends AppCompatActivity {
         //_mChart.setBackgroundColor(R.color.transparent);
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
-        _mChart.setHighlightFullBarEnabled(false);
+        //_mChart.setHighlightFullBarEnabled(false);
+        _mChart.setOnChartValueSelectedListener(this);
         _mChart.setDoubleTapToZoomEnabled(false);
 
         // draw bars behind lines
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         leftAxis.setDrawGridLines(false);
         //leftAxis.setDrawLabels(false);
         leftAxis.setDrawLabels(true);
-        leftAxis.setAxisMinimum(-10f); // this replaces setStartAtZero(true)
+        leftAxis.setAxisMinimum(-5f); // this replaces setStartAtZero(true)
     }
 
     private void setXAxis() {
@@ -275,6 +280,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void drawChart(List<ca.nismit.util.weather.pojoForecast.List> list) {
         CombinedData data = new CombinedData();
 
@@ -285,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
         _mChart.setVisibleXRangeMaximum(4);
         _mChart.setPinchZoom(false);
-        //_mChart.setVisibleYRangeMaximum(data.getYMax() + 0.25f, YAxis.AxisDependency.RIGHT);
+        _mChart.setVisibleYRangeMaximum(data.getYMax() + 2f, YAxis.AxisDependency.LEFT);
 
         _mChart.animateY(2500);
         _mChart.setData(data);
@@ -323,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
         set.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
         float barWidth = 0.25f; // x2 dataset
-        // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
 
         BarData d = new BarData(set);
         d.setBarWidth(barWidth);
@@ -355,4 +361,24 @@ public class MainActivity extends AppCompatActivity {
         return entries;
     }
 
+    protected RectF mOnValueSelectedRectF = new RectF();
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        if (e == null)
+            return;
+
+        RectF bounds = mOnValueSelectedRectF;
+        //_mChart.getBarBounds((BarEntry) e, bounds);
+        Log.d(TAG, "onValueSelected: " + e.toString());
+        MPPointF position = _mChart.getPosition(e, YAxis.AxisDependency.LEFT);
+
+        MPPointF.recycleInstance(position);
+        Log.d(TAG, "onValueSelected: "+ position);
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
 }
