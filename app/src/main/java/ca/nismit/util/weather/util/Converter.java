@@ -40,7 +40,11 @@ public class Converter {
 
     public static float castDoubletoFloat(Double value) {
         float result;
-        result = value.floatValue();
-        return result;
+        if (value != null) {
+            result = value.floatValue();
+            return result;
+        } else {
+            return 0;
+        }
     }
 }
