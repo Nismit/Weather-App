@@ -70,9 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
         setContentView(R.layout.activity_main);
 
-        //
         // Init relative view
-        //
         _relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 
         //
@@ -86,9 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         _textHumidity = (TextView) findViewById(R.id.ac_text_humidity);
         _textWind = (TextView) findViewById(R.id.ac_text_wind);
 
-        //
         // Init image view
-        //
         _weatherIcon = (ImageView) findViewById(R.id.ac_weather_icon);
 
         // Init Chart
@@ -184,13 +180,13 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private void setBackground(int weatherId) {
         String weather = null;
         if(weatherId >= 200 && weatherId < 300) {
-            weather = "CLOUD";
+            weather = "THUNDERSTORM";
         } else if(weatherId >= 300 && weatherId < 400) {
-            weather = "CLOUD";
+            weather = "DRIZZLE";
         } else if(weatherId >= 500 && weatherId < 600) {
             weather = "RAIN";
         } else if(weatherId >= 600 && weatherId < 700) {
-            weather = "CLOUD";
+            weather = "SNOW";
         } else if(weatherId >= 700 && weatherId < 800) {
             weather = "CLOUD";
         } else if(weatherId == 800) {
@@ -208,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
                 break;
             case "RAIN" :
                 _relativeLayout.setBackgroundResource(R.drawable.gradation_rain);
+                break;
+            default:
+                _relativeLayout.setBackgroundResource(R.drawable.gradation_sunny);
                 break;
         }
 
@@ -258,10 +257,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
      */
     private void initChart() {
         _mChart.getDescription().setEnabled(false);
-        //_mChart.setBackgroundColor(R.color.transparent);
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
-        //_mChart.setHighlightFullBarEnabled(false);
         _mChart.setOnChartValueSelectedListener(this);
         _mChart.setDoubleTapToZoomEnabled(false);
 
@@ -281,11 +278,6 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private void setLegend() {
         Legend l = _mChart.getLegend();
         l.setEnabled(false);
-//        l.setWordWrapEnabled(true);
-//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-//        l.setDrawInside(false);
     }
 
     private void setSideAxis() {
@@ -328,14 +320,12 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private void drawChart(List<ca.nismit.util.weather.pojoForecast.List> list) {
         CombinedData data = new CombinedData();
 
-
         data.setData(generateLineData(getTempData(list)));
         data.setData(generateBarData(getRainData(list)));
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
         _mChart.setVisibleXRangeMaximum(4);
         _mChart.setPinchZoom(false);
-        Log.d(TAG, "drawChart: "+ data.getYMax());
         _mChart.setVisibleYRangeMaximum((data.getYMax()+ 2f), YAxis.AxisDependency.LEFT);
 
         _mChart.animateY(2500);
@@ -345,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
     private LineData generateLineData(ArrayList<Entry> entries) {
 
-        LineDataSet set = new LineDataSet(entries, "Line DataSet");
+        LineDataSet set = new LineDataSet(entries, "TEMP");
         set.setColor(Color.rgb(240, 238, 70));
         set.setLineWidth(2.5f);
         set.setCircleColor(Color.rgb(252, 238, 33));
@@ -354,10 +344,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         //set.setDrawValues(true);
         set.setDrawValues(false);
-        //set.setValueTextSize(15f);
-        //set.setValueTextColor(Color.rgb(240, 238, 70));
-
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         LineData d = new LineData();
         d.addDataSet(set);
 
@@ -369,12 +357,9 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         BarDataSet set = new BarDataSet(entries, "Rain");
         set.setColor(Color.rgb(235, 255, 255));
         set.setDrawValues(false);
-        //set.setValueTextColor(Color.rgb(60, 220, 78));
-        //set.setValueTextSize(10f);
         set.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
-        float barWidth = 0.25f; // x2 dataset
-
+        float barWidth = 0.25f;
         BarData d = new BarData(set);
         d.setBarWidth(barWidth);
 
