@@ -8,11 +8,14 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.math.BigDecimal;
+
 import ca.nismit.util.weather.R;
 
 public class CustomMarkerView extends com.github.mikephil.charting.components.MarkerView {
 
     private TextView tvContent;
+    public static BigDecimal bd;
 
     public CustomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
@@ -21,10 +24,13 @@ public class CustomMarkerView extends com.github.mikephil.charting.components.Ma
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
+        bd = new BigDecimal(e.getY());
+        float result = bd.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+
         if (highlight.getAxis().toString().equals("LEFT")) {
-            tvContent.setText("" + e.getY() + "°");
+            tvContent.setText("" + result + "°");
         } else if(highlight.getAxis().toString().equals("RIGHT")) {
-            tvContent.setText("" + e.getY() + "mm");
+            tvContent.setText("" + result + "mm");
         } else {
 
         }
