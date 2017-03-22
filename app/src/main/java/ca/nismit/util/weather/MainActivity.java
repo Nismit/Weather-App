@@ -290,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
         YAxis rightAxis = _mChart.getAxisRight();
         rightAxis.setTextColor(Color.WHITE);
         rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisLineColor(Color.WHITE);
         //rightAxis.setDrawLabels(true);
         rightAxis.setDrawLabels(false);
         rightAxis.setDrawZeroLine(true);
@@ -298,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
         YAxis leftAxis = _mChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setAxisLineColor(Color.WHITE);
         leftAxis.setDrawGridLines(false);
         leftAxis.setDrawLabels(false);
         //leftAxis.setDrawLabels(true);
@@ -308,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
         _xAxis = _mChart.getXAxis();
         _xAxis.setTextColor(Color.WHITE);
         _xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        _xAxis.setAxisLineColor(Color.WHITE);
         _xAxis.setDrawGridLines(false);
         //xAxis.setCenterAxisLabels(true);
         _xAxis.setAxisMinimum(-0.3f);
@@ -327,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
         data.setData(generateLineData(getTempData(list)));
         data.setData(generateBarData(getRainData(list)));
 
-        _xAxis.setAxisMaximum(data.getXMax() + 0.25f);
+        _xAxis.setAxisMaximum(data.getXMax() + 0.3f);
         _mChart.setVisibleXRangeMaximum(4);
         _mChart.setPinchZoom(false);
         _mChart.setVisibleYRangeMaximum((data.getYMax()+ 2f), YAxis.AxisDependency.LEFT);
