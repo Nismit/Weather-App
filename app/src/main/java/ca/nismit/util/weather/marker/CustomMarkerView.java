@@ -38,7 +38,7 @@ public class CustomMarkerView extends com.github.mikephil.charting.components.Ma
     public MPPointF getOffset() {
         if(mOffset == null) {
             // center the marker horizontally and vertically
-            mOffset = new MPPointF(-(getWidth() / 2), -( getHeight() + 4));
+            mOffset = new MPPointF(-(getWidth() / (float) 2.3), -( getHeight() + 6));
         }
 
         return mOffset;
