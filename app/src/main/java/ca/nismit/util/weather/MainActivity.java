@@ -1,7 +1,6 @@
 package ca.nismit.util.weather;
 
 import android.graphics.Color;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +33,7 @@ import java.util.List;
 
 import ca.nismit.util.weather.api.WeatherApi;
 import ca.nismit.util.weather.forecast.RecyclerAdapter;
+import ca.nismit.util.weather.marker.CustomMarkerView;
 import ca.nismit.util.weather.pojoForecast.WeatherForecastResponse;
 import ca.nismit.util.weather.pojoWeather.WeatherResponse;
 import ca.nismit.util.weather.util.ClientHelper;
@@ -42,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements OnChartValueSelectedListener {
+public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
     private static String WEATHER_PATH_URL = "data/2.5/weather";
     private static String FORECAST_PATH_URL = "data/2.5/forecast";
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private ImageView _weatherIcon;
     private TextView _textLocation, _textDate, _textTemp, _textSunrise, _textSunset, _textHumidity, _textWind;
     private CombinedChart _mChart;
+    private CustomMarkerView _markerView;
     private XAxis _xAxis;
     private final int itemcount = 12;
     private RecyclerView _recyclerView;
@@ -256,10 +257,11 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
      * In this case, the graph will be painted combine data.
      */
     private void initChart() {
+        _markerView = new CustomMarkerView(this, R.layout.custom_marker);
+        _mChart.setMarker(_markerView);
         _mChart.getDescription().setEnabled(false);
         _mChart.setDrawGridBackground(false);
         _mChart.setDrawBarShadow(false);
-        _mChart.setOnChartValueSelectedListener(this);
         _mChart.setDoubleTapToZoomEnabled(false);
 
         // draw bars behind lines
@@ -318,8 +320,6 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         });
     }
 
-
-
     private void drawChart(List<ca.nismit.util.weather.pojoForecast.List> list) {
         CombinedData data = new CombinedData();
 
@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         set.setDrawValues(false);
         set.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
-        float barWidth = 0.25f;
+        float barWidth = 0.5f;
         BarData d = new BarData(set);
         d.setBarWidth(barWidth);
 
@@ -390,23 +390,4 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
         return entries;
     }
-
-    protected RectF mOnValueSelectedRectF = new RectF();
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-        if (e == null)
-            return;
-
-        RectF bounds = mOnValueSelectedRectF;
-        //_mChart.getBarBounds((BarEntry) e, bounds);
-        Log.d(TAG, "onValueSelected: " + e.toString());
-        MPPointF position = _mChart.getPosition(e, YAxis.AxisDependency.LEFT);
-
-        MPPointF.recycleInstance(position);
-        Log.d(TAG, "onValueSelected: "+ position);
-    }
-
-    @Override
-    public void onNothingSelected() { }
 }
