@@ -8,188 +8,197 @@
     android:background="@drawable/gradation_sunny"
     tools:context="ca.nismit.util.weather.MainActivity">
 
-    <TextView
-        android:id="@+id/ac_textLocation"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        tools:text="Vancouver" />
-
-    <TextView
-        android:id="@+id/ac_textDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ac_textLocation"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        tools:text="Friday, March 10, 2017" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ac_textDate"
-        android:layout_marginBottom="28dp"
-        android:layout_marginTop="28dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/ac_weather_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:srcCompat="@drawable/ic_01d" />
-
-        <TextView
-            android:id="@+id/ac_textTemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--°"
-            android:textColor="@android:color/background_light"
-            android:textSize="100sp"
-            tools:text="24°" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <ImageView
-            android:id="@+id/ac_icon_sunrise"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_sunrise" />
-
-        <TextView
-            android:id="@+id/ac_text_sunrise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="7dp"
-            android:text="00:00"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/ac_icon_sunset"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_sunset" />
-
-        <TextView
-            android:id="@+id/ac_text_sunset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="00:00"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/ac_icon_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_humidity" />
-
-        <TextView
-            android:id="@+id/ac_text_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="000%"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/ac_icon_wind"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_wind" />
-
-        <TextView
-            android:id="@+id/ac_text_wind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="00.0 m/s"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout2"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/ac_textTitle_temp_preci"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Temperature / Precipitation"
-            android:textColor="@android:color/background_light" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <com.github.mikephil.charting.charts.CombinedChart
-                android:id="@+id/ac_combiChart"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@color/transparent" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/ac_textTitle_forecast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Forecast"
-            android:textColor="@android:color/background_light" />
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            <TextView
+                android:id="@+id/ac_textLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                tools:text="Vancouver" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/ac_textDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ac_textLocation"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                tools:text="Friday, March 10, 2017" />
 
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ac_textDate"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ac_weather_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:srcCompat="@drawable/ic_01d" />
+
+                <TextView
+                    android:id="@+id/ac_textTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--°"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="100sp"
+                    tools:text="24°" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout1"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:id="@+id/ac_icon_sunrise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/linearLayout1"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_sunrise" />
+
+                <TextView
+                    android:id="@+id/ac_text_sunrise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="7dp"
+                    android:text="00:00"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ac_icon_sunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_sunset" />
+
+                <TextView
+                    android:id="@+id/ac_text_sunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00:00"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ac_icon_humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_humidity" />
+
+                <TextView
+                    android:id="@+id/ac_text_humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="000%"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ac_icon_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_wind" />
+
+                <TextView
+                    android:id="@+id/ac_text_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00.0 m/s"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ac_textTitle_temp_preci"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Temperature / Precipitation"
+                    android:textColor="@android:color/background_light" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <com.github.mikephil.charting.charts.CombinedChart
+                        android:id="@+id/ac_combiChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/transparent" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ac_textTitle_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Forecast"
+                    android:textColor="@android:color/background_light" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
