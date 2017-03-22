@@ -206,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
             case "RAIN" :
                 _relativeLayout.setBackgroundResource(R.drawable.gradation_rain);
                 break;
+            case "SNOW" :
+                _relativeLayout.setBackgroundResource(R.drawable.gradation_snow);
+                break;
             default:
                 _relativeLayout.setBackgroundResource(R.drawable.gradation_sunny);
                 break;
