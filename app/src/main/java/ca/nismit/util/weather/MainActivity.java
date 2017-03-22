@@ -289,8 +289,9 @@ public class MainActivity extends AppCompatActivity {
         // Right
         YAxis rightAxis = _mChart.getAxisRight();
         rightAxis.setTextColor(Color.WHITE);
-        rightAxis.setDrawGridLines(true);
-        rightAxis.setDrawLabels(true);
+        rightAxis.setDrawGridLines(false);
+        //rightAxis.setDrawLabels(true);
+        rightAxis.setDrawLabels(false);
         rightAxis.setDrawZeroLine(true);
         rightAxis.setGranularity(1f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -298,8 +299,8 @@ public class MainActivity extends AppCompatActivity {
         YAxis leftAxis = _mChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setDrawGridLines(false);
-        //leftAxis.setDrawLabels(false);
-        leftAxis.setDrawLabels(true);
+        leftAxis.setDrawLabels(false);
+        //leftAxis.setDrawLabels(true);
         //leftAxis.setAxisMinimum(-5f); // this replaces setStartAtZero(true)
     }
 
@@ -310,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
         _xAxis.setDrawGridLines(false);
         //xAxis.setCenterAxisLabels(true);
         _xAxis.setAxisMinimum(-0.3f);
-        //xAxis.setGranularity(1f);
+        _xAxis.setGranularity(1f);
         _xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
