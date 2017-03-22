@@ -315,20 +315,24 @@ public class MainActivity extends AppCompatActivity {
         //xAxis.setCenterAxisLabels(true);
         _xAxis.setAxisMinimum(-0.3f);
         _xAxis.setGranularity(1f);
-        _xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                //return mMonths[(int) value % mMonths.length];
-                return "test";
-            }
-        });
     }
 
-    private void drawChart(List<ca.nismit.util.weather.pojoForecast.List> list) {
+    private void drawChart(final List<ca.nismit.util.weather.pojoForecast.List> list) {
         CombinedData data = new CombinedData();
 
         data.setData(generateLineData(getTempData(list)));
         data.setData(generateBarData(getRainData(list)));
+
+        _xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                //Log.d(TAG, "getFormattedValue: " + value);
+                String result = Converter.convertUnixTimetoDate("TIME", list.get((int) value % list.size()).getDt());
+                return result;
+            }
+
+
+        });
 
         _xAxis.setAxisMaximum(data.getXMax() + 0.3f);
         _mChart.setVisibleXRangeMaximum(4);
@@ -375,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         //for (int index = 0; index < list.size(); index++) {
-        for (int index = 0; index < 12; index++) {
+        for (int index = 0; index < itemcount; index++) {
             Float temp = Converter.castFloatDegree(list.get(index).getMain().getTemp());
             entries.add(new BarEntry(index, temp));
         }
@@ -387,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
         //for (int index = 0; index < list.size(); index++) {
-        for (int index = 0; index < 12; index++) {
+        for (int index = 0; index < itemcount; index++) {
             Float rain = Converter.castDoubletoFloat(list.get(index).getRain().get3h());
             entries.add(new BarEntry(index, rain));
         }
