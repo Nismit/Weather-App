@@ -280,6 +280,9 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         l.setEnabled(false);
     }
 
+    /**
+     * Set Y axis
+     */
     private void setSideAxis() {
         // Right
         YAxis rightAxis = _mChart.getAxisRight();
@@ -334,8 +337,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     }
 
     private LineData generateLineData(ArrayList<Entry> entries) {
-
-        LineDataSet set = new LineDataSet(entries, "TEMP");
+        LineDataSet set = new LineDataSet(entries, "Temp");
         set.setColor(Color.rgb(240, 238, 70));
         set.setLineWidth(2.5f);
         set.setCircleColor(Color.rgb(252, 238, 33));
@@ -353,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     }
 
     private BarData generateBarData(ArrayList<BarEntry> entries) {
-
         BarDataSet set = new BarDataSet(entries, "Rain");
         set.setColor(Color.rgb(235, 255, 255));
         set.setDrawValues(false);
@@ -407,7 +408,5 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     }
 
     @Override
-    public void onNothingSelected() {
-
-    }
+    public void onNothingSelected() { }
 }
